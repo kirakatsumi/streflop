@@ -80,17 +80,6 @@ namespace streflop {
 	template<typename T> void streflop_init() {}
 };
 
-
-
-#ifdef __APPLE__
-// macosx's cmath doesn't include c++11's std::hypot yet (tested 2013)
-namespace std {
-	template<typename T> T hypot(T x, T y);
-};
-#endif
-
-
-
 namespace math {
 	using std::fabs;
 
@@ -168,26 +157,6 @@ namespace math {
 //   any code that only includes streflop_cond.h (assimp, etc) and not FastMath.h
 //   would not know about this without also including the latter, do so here
 #include "System/FastMath.h"
-
-
-
-#ifdef __APPLE__
-#include <algorithm>
-
-namespace std {
-	template<typename T>
-	T hypot(T x, T y) {
-		x = std::abs(x);
-		y = std::abs(y);
-		auto t = std::min(x, y);
-		     x = std::max(x, y);
-		t = t / x;
-		return x * math::sqrtf(1.0f + t*t);
-	}
-}
-#endif
-
-
 
 #endif // STREFLOP_ENABLED
 
